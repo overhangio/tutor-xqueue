@@ -1,0 +1,2 @@
+recursive-include tutorxqueue/patches *
+recursive-include tutorxqueue/templates *

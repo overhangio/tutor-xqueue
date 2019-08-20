@@ -1,0 +1,40 @@
+build:image:
+  script:
+    - apk add --no-cache docker
+    - python setup.py install
+    - tutor plugins enable xqueue
+    - tutor config save
+    - tutor images build xqueue
+  only:
+    refs:
+      - master
+  tags:
+    - private
+  stage: build
+
+deploy:image:
+  script:
+    - apk add --no-cache docker
+    - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+    - python setup.py install
+    - tutor plugins enable xqueue
+    - tutor config save
+    - tutor images push xqueue
+  only:
+    refs:
+      - master
+  tags:
+    - private
+  stage: deploy
+
+deploy:pypi:
+  script:
+    - pip3 install -U setuptools twine
+    - python3 setup.py sdist
+    - twine upload --skip-existing dist/tutor-xqueue*.tar.gz
+  only:
+    refs:
+      - master
+  tags:
+    - private
+  stage: deploy
