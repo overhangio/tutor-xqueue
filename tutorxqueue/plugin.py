@@ -23,7 +23,7 @@ config = {
 
 templates = pkg_resources.resource_filename("tutorxqueue", "templates")
 hooks = {
-    "init": ["mysql-client", "xqueue"],
+    "init": ["mysql", "xqueue"],
     "build-image": {"xqueue": "{{ XQUEUE_DOCKER_IMAGE }}"},
     "remote-image": {"xqueue": "{{ XQUEUE_DOCKER_IMAGE }}"},
 }

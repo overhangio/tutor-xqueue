@@ -7,8 +7,8 @@ xqueue:
   environment:
     DJANGO_SETTINGS_MODULE: xqueue.tutor
   restart: unless-stopped
-  {% if ACTIVATE_MYSQL %}depends_on:
-    - mysql{% endif %}
+  depends_on:
+    - mysql
 
 xqueue_consumer:
   image: {{ DOCKER_REGISTRY }}{{ XQUEUE_DOCKER_IMAGE }}
@@ -20,5 +20,5 @@ xqueue_consumer:
   restart: unless-stopped
   entrypoint: ["sh", "-e", "-c"]
   command: ["while true; do echo 'running consumers'; ./manage.py run_consumer; sleep 10; done"]
-  {% if ACTIVATE_MYSQL %}depends_on:
-    - mysql{% endif %}
+  depends_on:
+    - mysql
