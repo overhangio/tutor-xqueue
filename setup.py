@@ -19,8 +19,8 @@ setup(
     url="https://docs.tutor.overhang.io/",
     project_urls={
         "Documentation": "https://docs.tutor.overhang.io/",
-        "Code": "https://github.com/overhangio/tutor/tree/master/plugins/xqueue",
-        "Issue tracker": "https://github.com/overhangio/tutor/issues",
+        "Code": "https://github.com/overhangio/tutor-xqueue",
+        "Issue tracker": "https://github.com/overhangio/tutor-xqueue/issues",
         "Community": "https://discuss.overhang.io",
     },
     license="AGPLv3",
