@@ -8,6 +8,9 @@ DATABASES = {
         "NAME": "{{ XQUEUE_MYSQL_DATABASE }}",
         "USER": "{{ XQUEUE_MYSQL_USERNAME }}",
         "PASSWORD": "{{ XQUEUE_MYSQL_PASSWORD }}",
+        "OPTIONS": {
+            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
     }
 }
 
