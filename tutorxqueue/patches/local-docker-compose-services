@@ -2,7 +2,7 @@
 xqueue:
   image: {{ DOCKER_REGISTRY }}{{ XQUEUE_DOCKER_IMAGE }}
   volumes:
-    - ../plugins/xqueue/apps/settings/tutor.py:/openedx/xqueue/xqueue/tutor.py
+    - ../plugins/xqueue/apps/settings/tutor.py:/openedx/xqueue/xqueue/tutor.py:ro
     - ../../data/xqueue:/openedx/data
   environment:
     DJANGO_SETTINGS_MODULE: xqueue.tutor
@@ -13,7 +13,7 @@ xqueue:
 xqueue_consumer:
   image: {{ DOCKER_REGISTRY }}{{ XQUEUE_DOCKER_IMAGE }}
   volumes:
-    - ../plugins/xqueue/apps/settings/tutor.py:/openedx/xqueue/xqueue/tutor.py
+    - ../plugins/xqueue/apps/settings/tutor.py:/openedx/xqueue/xqueue/tutor.py:ro
     - ../../data/xqueue:/openedx/data
   environment:
     DJANGO_SETTINGS_MODULE: xqueue.tutor
