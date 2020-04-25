@@ -1,0 +1,8 @@
+xqueue-job:
+  image: {{ DOCKER_REGISTRY }}{{ XQUEUE_DOCKER_IMAGE }}
+  volumes:
+    - ../plugins/xqueue/apps/settings/tutor.py:/openedx/xqueue/xqueue/tutor.py:ro
+  environment:
+    DJANGO_SETTINGS_MODULE: xqueue.tutor
+  depends_on:
+    - mysql
