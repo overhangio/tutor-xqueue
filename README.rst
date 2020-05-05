@@ -19,26 +19,25 @@ Usage
 
 In the Open edX studio, edit a course and add a new "Advanced blank problem" ("Problem" 🠆 "Advanced" 🠆  "Advanced blank problem"). Then, click "Edit" and copy-paste the following in the editor::
 
-```
-<problem>
-  <coderesponse queuename="openedx">
-    <label>Write a program that prints "hello world".</label>
-    <textbox rows="10" cols="80" mode="python" tabsize="4"/>
-    <codeparam>
-      <initial_display>
-        # students write your program here
-        print ""
-      </initial_display>
-      <answer_display>
-        print "hello world"
-      </answer_display>
-      <grader_payload>
-        {"output": "hello world", "max_length": 2}
-      </grader_payload>
-    </codeparam>
-  </coderesponse>
-</problem>
-```
+
+    <problem>
+      <coderesponse queuename="openedx">
+        <label>Write a program that prints "hello world".</label>
+        <textbox rows="10" cols="80" mode="python" tabsize="4"/>
+        <codeparam>
+          <initial_display>
+            # students write your program here
+            print ""
+          </initial_display>
+          <answer_display>
+            print "hello world"
+          </answer_display>
+          <grader_payload>
+            {"output": "hello world", "max_length": 2}
+          </grader_payload>
+        </codeparam>
+      </coderesponse>
+    </problem>
 
 .. note::
     The queue name must be "openedx".
@@ -100,3 +99,8 @@ Configuration
 - ``XQUEUE_SECRET_KEY`` (default: ``"{{ 24|random_string }}"``)
 
 These values can be modified with ``tutor config save --set PARAM_NAME=VALUE`` commands.
+
+License
+-------
+
+This work is licensed under the terms of the `GNU Affero General Public License (AGPL) <https://github.com/overhangio/tutor-xqueue/blob/master/LICENSE.txt>`_.
