@@ -28,6 +28,7 @@ setup(
     author_email="contact@overhang.io",
     description="A Tutor plugin for Xqueue (external grading system)",
     long_description=readme,
+    long_description_content_type="text/x-rst",
     packages=find_packages(exclude=["tests*"]),
     include_package_data=True,
     python_requires=">=3.5",
