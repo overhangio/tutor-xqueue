@@ -31,7 +31,7 @@ setup(
     packages=find_packages(exclude=["tests*"]),
     include_package_data=True,
     python_requires=">=3.5",
-    install_requires=["tutor-openedx"],
+    install_requires=["tutor-openedx", "requests"],
     entry_points={"tutor.plugin.v0": ["xqueue = tutorxqueue.plugin"]},
     classifiers=[
         "Development Status :: 3 - Alpha",

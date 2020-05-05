@@ -3,5 +3,5 @@ XQUEUE_INTERFACE = {
     "username": "{{ XQUEUE_AUTH_USERNAME }}",
     "password": "{{ XQUEUE_AUTH_PASSWORD }}"
   },
-  "url": "http://xqueue:8040"
+  "url": "http://xqueue:8000"
 }

@@ -6,7 +6,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 8040
+    - port: 8000
       protocol: TCP
   selector:
     app.kubernetes.io/name: xqueue
