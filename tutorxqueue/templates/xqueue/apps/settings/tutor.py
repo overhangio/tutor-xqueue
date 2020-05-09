@@ -20,6 +20,10 @@ DATABASES = {
 
 LOGGING = get_logger_config(log_dir="/openedx/data/", logging_env="tutor", dev_env=True)
 LOGGING["loggers"][""]["handlers"].append("console")
+LOGGING["loggers"]["submission_queue.management.commands.run_consumer"] = {
+    "level": "WARN",
+    "handlers": ["console"]
+}
 
 SECRET_KEY = "{{ XQUEUE_SECRET_KEY }}"
 
