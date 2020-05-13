@@ -17,7 +17,7 @@ Then, to enable this plugin, run::
 Usage
 -----
 
-In the Open edX studio, edit a course and add a new "Advanced blank problem" ("Problem" 🠆 "Advanced" 🠆  "Advanced blank problem"). Then, click "Edit" and copy-paste the following in the editor::
+In the Open edX studio, edit a course and add a new "Advanced blank problem" ("Problem" 🠆 "Advanced" 🠆  "Blank Advanced Problem"). Then, click "Edit" and copy-paste the following in the editor::
 
 
     <problem>

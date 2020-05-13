@@ -114,7 +114,7 @@ class Client:
         self.base_url = url
         if not self.base_url:
             scheme = "https" if user_config["ACTIVATE_HTTPS"] else "http"
-            host = host or user_config["XQUEUE_HOST"]
+            host = user_config["XQUEUE_HOST"]
             self.base_url = "{}://{}".format(scheme, host)
         self.login()
 
