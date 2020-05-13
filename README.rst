@@ -77,9 +77,6 @@ Grade the submission (in this case, mark it as being correct)::
       "return_code": 0
     }
 
-.. warning::
-    When running locally, the Xqueue client will report back to the LMS at the production url, so there are great chances that it will not work. A workaround is to manually edit the Submission record stored in the Xqueue database and modify the ``lms_callback_url`` attribute, but this is for advanced users only.
-
 The submission should then appear as correct with the message that you provided on the command line:
 
 .. image:: https://github.com/overhangio/tutor-xqueue/raw/master/screenshots/correctanswer.png
