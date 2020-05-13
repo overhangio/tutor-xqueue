@@ -53,7 +53,9 @@ Count the number of submissions that need to be graded::
     }
 
 .. note::
-    By default, ``tutor xqueue submissions`` will hit the Xqueue API running at http(s)://xqueue.LMS_HOST. When running locally, you will want to interact with http://xqueue.localhost. To do so, you should pass the ``--url=http://xqueue.localhost`` option to the CLI.
+    By default, ``tutor xqueue submissions`` will hit the Xqueue API running at http(s)://xqueue.LMS_HOST. When running locally, you will want to interact with http://xqueue.localhost. To do so, you should pass the ``--url=http://xqueue.localhost`` option to the CLI. Alternatively, and to avoid passing this option every time, you can define the following environment variable::
+        
+        export TUTOR_XQUEUE_URL=http://xqueue.localhost
 
 Show the first submission that should be graded::
 
