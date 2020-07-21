@@ -90,7 +90,7 @@ Configuration
 
 - ``XQUEUE_AUTH_PASSWORD`` (default: ``"{{ 8|random_string }}"``)
 - ``XQUEUE_AUTH_USERNAME`` (default: ``"lms"``)
-- ``XQUEUE_DOCKER_IMAGE`` (default: ``"overhangio/openedx-xqueue:{{ TUTOR_VERSION }}"``)
+- ``XQUEUE_DOCKER_IMAGE`` (default: ``"{{ DOCKER_REGISTRY }}overhangio/openedx-xqueue:{{ TUTOR_VERSION }}"``)
 - ``XQUEUE_HOST`` (default: ``"xqueue.{{ LMS_HOST }}"``)
 - ``XQUEUE_MYSQL_PASSWORD`` (default: ``"{{ 8|random_string }}"``)
 - ``XQUEUE_MYSQL_DATABASE`` (default: ``"xqueue"``

@@ -1,5 +1,5 @@
 xqueue-job:
-  image: {{ DOCKER_REGISTRY }}{{ XQUEUE_DOCKER_IMAGE }}
+  image: {{ XQUEUE_DOCKER_IMAGE }}
   volumes:
     - ../plugins/xqueue/apps/settings/tutor.py:/openedx/xqueue/xqueue/tutor.py:ro
   environment:

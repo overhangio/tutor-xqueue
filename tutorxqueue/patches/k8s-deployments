@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: xqueue
-          image: {{ DOCKER_REGISTRY }}{{ XQUEUE_DOCKER_IMAGE }}
+          image: {{ XQUEUE_DOCKER_IMAGE }}
           ports:
             - containerPort: 8000
           env:
@@ -27,7 +27,7 @@ spec:
               name: settings
               subPath: tutor.py
         - name: xqueue-consumer
-          image: {{ DOCKER_REGISTRY }}{{ XQUEUE_DOCKER_IMAGE }}
+          image: {{ XQUEUE_DOCKER_IMAGE }}
           command: ["sh", "-e", "-c"]
           args: ["while true; do echo 'running consumers'; ./manage.py run_consumer; sleep 10; done"]
           env:
