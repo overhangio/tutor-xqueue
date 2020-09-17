@@ -8,7 +8,7 @@ RUN ln -s /usr/bin/python3 /usr/bin/python \
     && ln -s /usr/bin/pip3 /usr/bin/pip
 
 RUN mkdir /openedx /openedx/data
-RUN git clone https://github.com/edx/xqueue --branch open-release/juniper.3 --depth 1 /openedx/xqueue
+RUN git clone https://github.com/edx/xqueue --branch {{ OPENEDX_COMMON_VERSION }} --depth 1 /openedx/xqueue
 WORKDIR /openedx/xqueue
 
 RUN pip install -r requirements.txt
