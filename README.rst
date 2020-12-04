@@ -14,6 +14,8 @@ Then, to enable this plugin, run::
 
     tutor plugins enable xqueue
 
+You should then run the initialisation scripts. The easiest way to do this is to run ``tutor local quickstart``.
+
 Usage
 -----
 
