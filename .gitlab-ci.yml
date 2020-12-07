@@ -3,7 +3,7 @@ variables:
     TUTOR_IMAGES: xqueue
     TUTOR_PYPI_PACKAGE: tutor-xqueue
     TUTOR_PYPI_PRIVATE_PACKAGE: tutor-xqueue
-    OPENEDX_RELEASE: juniper
+    OPENEDX_RELEASE: koa
 
 include:
   - project: 'community/tutor-ci'

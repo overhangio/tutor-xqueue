@@ -3,7 +3,6 @@ from .settings import *
 ALLOWED_HOSTS = [
     "{{ XQUEUE_HOST }}",
     "xqueue",
-    "xqueue.localhost",
 ]
 
 DATABASES = {
