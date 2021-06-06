@@ -2,7 +2,7 @@ variables:
     TUTOR_PLUGIN: xqueue
     TUTOR_IMAGES: xqueue
     TUTOR_PYPI_PACKAGE: tutor-xqueue
-    OPENEDX_RELEASE: koa
+    OPENEDX_RELEASE: lilac
 
 include:
   - project: 'community/tutor-ci'
