@@ -6,11 +6,19 @@ RUN apt update && \
   apt install -y language-pack-en git python3 python3-pip libmysqlclient-dev
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
-RUN mkdir /openedx /openedx/data
+RUN mkdir /openedx /openedx/data /openedx/data/media
 RUN git clone https://github.com/edx/xqueue --branch {{ OPENEDX_COMMON_VERSION }} --depth 1 /openedx/xqueue
 WORKDIR /openedx/xqueue
 
 RUN pip install -r requirements.txt
+RUN pip install uwsgi==2.0.19.1
 
 EXPOSE 8000
-CMD gunicorn --workers=2 --name xqueue --bind=0.0.0.0:8000 --max-requests=1000 xqueue.wsgi:application
+CMD uwsgi \
+    --static-map /media=/openedx/media/ \
+    --http 0.0.0.0:8000 \
+    --thunder-lock \
+    --single-interpreter \
+    --enable-threads \
+    --processes=2 \
+    --wsgi-file xqueue/wsgi.py

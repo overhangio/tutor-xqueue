@@ -153,10 +153,17 @@ class Client:
         submission_body = json.loads(data["xqueue_body"])
         submission_id = header["submission_id"]
         submission_key = header["submission_key"]
+        submission_files = {}
+        for filename, path in json.loads(data["xqueue_files"]).items():
+            if not path.startswith("http"):
+                # Relative path: prepend with server url
+                path = self.base_url + "/" + path
+            submission_files[filename] = path
         return {
             "id": submission_id,
             "key": submission_key,
             "body": submission_body,
+            "files": submission_files,
             "return_code": response["return_code"],
         }
 

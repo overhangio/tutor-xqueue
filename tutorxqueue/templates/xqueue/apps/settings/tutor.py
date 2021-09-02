@@ -17,8 +17,12 @@ DATABASES = {
     }
 }
 
-LOGGING = get_logger_config(log_dir="/openedx/data/", logging_env="tutor", dev_env=True)
-LOGGING["loggers"][""]["handlers"].append("console")
+# User-uploaded assets will be stored in this media folder
+MEDIA_ROOT = "/openedx/data/media"
+MEDIA_URL = "media/"
+
+LOGGING["handlers"].pop("local")
+LOGGING["loggers"][""]["handlers"] = ["console"]
 LOGGING["loggers"]["submission_queue.management.commands.run_consumer"] = {
     "level": "WARN",
     "handlers": ["console"]

@@ -3,7 +3,7 @@ xqueue:
   image: {{ XQUEUE_DOCKER_IMAGE }}
   volumes:
     - ../plugins/xqueue/apps/settings/tutor.py:/openedx/xqueue/xqueue/tutor.py:ro
-    - ../../data/xqueue:/openedx/data
+    - ../../data/xqueue/media:/openedx/data/media
   environment:
     DJANGO_SETTINGS_MODULE: xqueue.tutor
   restart: unless-stopped
@@ -13,7 +13,6 @@ xqueue-consumer:
   image: {{ XQUEUE_DOCKER_IMAGE }}
   volumes:
     - ../plugins/xqueue/apps/settings/tutor.py:/openedx/xqueue/xqueue/tutor.py:ro
-    - ../../data/xqueue:/openedx/data
   environment:
     DJANGO_SETTINGS_MODULE: xqueue.tutor
   restart: unless-stopped

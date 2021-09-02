@@ -35,13 +35,26 @@ In the Open edX studio, edit a course and add a new "Advanced blank problem" ("P
             print("hello world")
           </answer_display>
           <grader_payload>
-            {"output": "hello world", "max_length": 2}
+            {"name": "hello world"}
           </grader_payload>
         </codeparam>
       </coderesponse>
     </problem>
 
-Note that the queue name must be "openedx".
+For a problem that includes a file submission, write instead::
+
+  <problem>
+    <coderesponse queuename="openedx">
+      <filesubmission/>
+      <codeparam>
+        <grader_payload>
+          {"name": "file submission"}
+        </grader_payload>
+      </codeparam>
+    </coderesponse>
+  </problem>
+
+Note that in all cases, the queue name must be "openedx".
 
 Save and publish the created unit. Then, access the unit from the LMS and attempt to answer the problem. The answer is sent to the Xqueue service. If you know how to use the Xqueue API, you can access it at http(s)://xqueue.LMS_HOST (in production) or http://xqueue.local.overhang.io (in development). However, the Xqueue API is a bit awkward to use. Tutor provides a simple command-line interface to interact with the Xqueue service.
 
@@ -69,6 +82,7 @@ Show the first submission that should be graded::
         "grader_payload": "\n        {\"output\": \"hello world\", \"max_length\": 2}\n      ",
         "student_response": "        # students write your program here\r\n        print \"42\"\r\n      "
       },
+      "files": {},
       "return_code": 0
     }
 
