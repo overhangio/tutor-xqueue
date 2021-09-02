@@ -9,7 +9,7 @@ xqueue:
   restart: unless-stopped
   depends_on: {{ [("mysql", RUN_MYSQL)]|list_if }}
 
-xqueue_consumer:
+xqueue-consumer:
   image: {{ XQUEUE_DOCKER_IMAGE }}
   volumes:
     - ../plugins/xqueue/apps/settings/tutor.py:/openedx/xqueue/xqueue/tutor.py:ro
