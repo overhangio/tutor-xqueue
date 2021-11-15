@@ -60,7 +60,11 @@ def command():
     "-u",
     "--url",
     envvar="TUTOR_XQUEUE_URL",
-    help="Xqueue server base url. By default, this value will be defined from the plugin configuration. Alternatively, this value can be defined from the TUTOR_XQUEUE_URL environment variable.",
+    help=(
+        "Xqueue server base url. By default, this value will be defined from "
+        "the plugin configuration. Alternatively, this value can be defined "
+        "from the TUTOR_XQUEUE_URL environment variable."
+    ),
 )
 def submissions(context, queue, url):
     context.queue = queue
