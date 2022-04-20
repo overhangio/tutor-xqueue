@@ -1,0 +1,7 @@
+xqueue:
+  stdin_open: true
+  tty: true
+
+xqueue-consumer:
+  stdin_open: true
+  tty: true
