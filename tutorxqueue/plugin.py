@@ -7,13 +7,14 @@ import pkg_resources
 import requests
 
 from tutor import config as tutor_config
+from tutor import hooks as tutor_hooks
 from tutor.exceptions import TutorError
 
 from .__about__ import __version__
 
 
 config = {
-    "add": {
+    "unique": {
         "AUTH_PASSWORD": "{{ 8|random_string }}",
         "MYSQL_PASSWORD": "{{ 8|random_string }}",
         "SECRET_KEY": "{{ 24|random_string }}",
@@ -28,25 +29,33 @@ config = {
     },
 }
 
-templates = pkg_resources.resource_filename("tutorxqueue", "templates")
-hooks = {
-    "init": ["mysql", "xqueue"],
-    "build-image": {"xqueue": "{{ XQUEUE_DOCKER_IMAGE }}"},
-    "remote-image": {"xqueue": "{{ XQUEUE_DOCKER_IMAGE }}"},
-}
+# Inizialization hooks
+tutor_hooks.Filters.COMMANDS_INIT.add_item((
+    "mysql",
+    ("xqueue", "tasks", "mysql", "init"),
+))
 
+tutor_hooks.Filters.COMMANDS_INIT.add_item((
+    "xqueue",
+    ("xqueue", "tasks", "xqueue", "init"),
+))
 
-def patches():
-    all_patches = {}
-    for path in glob(
-        os.path.join(pkg_resources.resource_filename("tutorxqueue", "patches"), "*")
-    ):
-        with open(path) as patch_file:
-            name = os.path.basename(path)
-            content = patch_file.read()
-            all_patches[name] = content
-    return all_patches
+# Image managment
+tutor_hooks.Filters.IMAGES_BUILD.add_item((
+    "xqueue",
+    ("plugins", "xqueue", "build", "xqueue"),
+    "{{ XQUEUE_DOCKER_IMAGE }}",
+    (),
+))
 
+tutor_hooks.Filters.IMAGES_PULL.add_item((
+    "xqueue",
+    "{{ XQUEUE_DOCKER_IMAGE }}",
+))
+tutor_hooks.Filters.IMAGES_PUSH.add_item((
+    "xqueue",
+    "{{ XQUEUE_DOCKER_IMAGE }}",
+))
 
 @click.group(help="Interact with the Xqueue server")
 def command():
@@ -199,3 +208,39 @@ submissions.add_command(count_submissions)
 submissions.add_command(show_submission)
 submissions.add_command(grade_submission)
 command.add_command(submissions)
+
+####### Boilerplate code
+# Add the "templates" folder as a template root
+tutor_hooks.Filters.ENV_TEMPLATE_ROOTS.add_item(
+    pkg_resources.resource_filename("tutorxqueue", "templates")
+)
+# Render the "build" and "apps" folders
+tutor_hooks.Filters.ENV_TEMPLATE_TARGETS.add_items(
+    [
+        ("xqueue/build", "plugins"),
+        ("xqueue/apps", "plugins"),
+    ],
+)
+# Load patches from files
+for path in glob(
+    os.path.join(
+        pkg_resources.resource_filename("tutorxqueue", "patches"),
+        "*",
+    )
+):
+    with open(path, encoding="utf-8") as patch_file:
+        tutor_hooks.Filters.ENV_PATCHES.add_item((os.path.basename(path), patch_file.read()))
+# Add configuration entries
+tutor_hooks.Filters.CONFIG_DEFAULTS.add_items(
+    [
+        (f"XQUEUE_{key}", value)
+        for key, value in config.get("defaults", {}).items()
+    ]
+)
+tutor_hooks.Filters.CONFIG_UNIQUE.add_items(
+    [
+        (f"XQUEUE_{key}", value)
+        for key, value in config.get("unique", {}).items()
+    ]
+)
+tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(list(config.get("overrides", {}).items()))
