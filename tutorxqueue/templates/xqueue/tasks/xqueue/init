@@ -1,0 +1,2 @@
+./manage.py migrate
+./manage.py update_users
