@@ -230,6 +230,10 @@ for path in glob(
 ):
     with open(path, encoding="utf-8") as patch_file:
         tutor_hooks.Filters.ENV_PATCHES.add_item((os.path.basename(path), patch_file.read()))
+
+# Add cli commands filter
+tutor_hooks.Filters.CLI_COMMANDS.add_item(command)
+
 # Add configuration entries
 tutor_hooks.Filters.CONFIG_DEFAULTS.add_items(
     [
