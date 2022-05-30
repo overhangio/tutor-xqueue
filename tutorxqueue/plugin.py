@@ -57,7 +57,7 @@ tutor_hooks.Filters.IMAGES_PUSH.add_item((
     "{{ XQUEUE_DOCKER_IMAGE }}",
 ))
 
-@click.group(help="Interact with the Xqueue server")
+@click.group(help="Interact with the Xqueue server", name="xqueue")
 def command():
     pass
 
