@@ -57,6 +57,20 @@ tutor_hooks.Filters.IMAGES_PUSH.add_item((
     "{{ XQUEUE_DOCKER_IMAGE }}",
 ))
 
+@tutor_hooks.Filters.COMPOSE_MOUNTS.add()
+def _mount_xqueue(volumes, name):
+    """
+    When mounting xqueue with `--mount=/path/to/xqueue`,
+    bind-mount the host repo in the xqueue container.
+    """
+    if name == "xqueue":
+        path = "/openedx/xqueue"
+        volumes += [
+            ("xqueue", path),
+            ("xqueue-job", path),
+        ]
+    return volumes
+
 @click.group(help="Interact with the Xqueue server", name="xqueue")
 def command():
     pass
