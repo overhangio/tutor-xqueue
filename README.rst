@@ -114,6 +114,15 @@ Configuration
 
 These values can be modified with ``tutor config save --set PARAM_NAME=VALUE`` commands.
 
+Debugging
+---------
+
+To debug the xqueue service, you are encouraged to mount the xqueue repo from the host in the development container:
+
+    tutor dev start --mount /path/to/xqueue
+
+Feel free to add breakpoints (``breakpoint()``) anywhere in your source code to debug your application.
+
 License
 -------
 
