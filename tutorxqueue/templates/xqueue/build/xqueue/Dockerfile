@@ -1,5 +1,4 @@
 FROM docker.io/ubuntu:20.04
-MAINTAINER Overhang.io <contact@overhang.io>
 
 RUN apt update && \
   apt upgrade -y && \
@@ -17,7 +16,7 @@ RUN python -m venv /openedx/venv
 ENV PATH /openedx/venv/bin:${PATH}
 RUN pip install --upgrade pip setuptools
 RUN pip install -r requirements.txt
-RUN pip install uwsgi==2.0.20
+RUN pip install uwsgi==2.0.21
 
 RUN mkdir /openedx/data /openedx/data/media
 

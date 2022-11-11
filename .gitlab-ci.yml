@@ -2,7 +2,7 @@ variables:
     TUTOR_PLUGIN: xqueue
     TUTOR_IMAGES: xqueue
     TUTOR_PYPI_PACKAGE: tutor-xqueue
-    OPENEDX_RELEASE: nutmeg
+    OPENEDX_RELEASE: olive
     GITHUB_REPO: overhangio/tutor-xqueue
 
 include:
