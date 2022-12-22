@@ -127,3 +127,8 @@ License
 -------
 
 This work is licensed under the terms of the `GNU Affero General Public License (AGPL) <https://github.com/overhangio/tutor-xqueue/blob/master/LICENSE.txt>`_.
+
+Troubleshooting
+---------------
+
+This Tutor plugin is maintained by Jhony Avella from `eduNEXT <https://www.edunext.co/>`__. Community support is available from the official `Open edX forum <https://discuss.openedx.org>`__. Do you need help with this plugin? See the `troubleshooting <https://docs.tutor.overhang.io/troubleshooting.html>`__ section from the Tutor documentation.
