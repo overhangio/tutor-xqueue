@@ -22,7 +22,7 @@ RUN mkdir /openedx/data /openedx/data/media
 
 EXPOSE 8000
 CMD uwsgi \
-    --static-map /media=/openedx/media/ \
+    --static-map /media=/openedx/data/media/ \
     --http 0.0.0.0:8000 \
     --thunder-lock \
     --single-interpreter \
