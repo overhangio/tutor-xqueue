@@ -37,21 +37,21 @@ config = {
 # tutorcodejail/templates/codejail/tasks/
 # and then add it to the MY_INIT_TASKS list. Each task is in the format:
 # ("<service>", ("<path>", "<to>", "<script>", "<template>"))
-MY_INIT_TASKS: list[tuple[str, tuple[str, ...], int]] = [
-    ("mysql", ("xqueue", "tasks", "mysql", "init"), tutor_hooks.priorities.HIGH),
-    ("xqueue", ("xqueue", "tasks", "xqueue", "init"), tutor_hooks.priorities.HIGH),
+MY_INIT_TASKS: list[tuple[str, tuple[str, ...]]] = [
+    ("mysql", ("xqueue", "tasks", "mysql", "init")),
+    ("xqueue", ("xqueue", "tasks", "xqueue", "init")),
 ]
 
 # For each task added to MY_INIT_TASKS, we load the task template
 # and add it to the CLI_DO_INIT_TASKS filter, which tells Tutor to
 # run it as part of the `init` job.
-for service, template_path, priority in MY_INIT_TASKS:
+for service, template_path in MY_INIT_TASKS:
     full_path: str = pkg_resources.resource_filename(
         "tutorxqueue", os.path.join("templates", *template_path)
     )
     with open(full_path, encoding="utf-8") as init_task_file:
         init_task: str = init_task_file.read()
-    tutor_hooks.Filters.CLI_DO_INIT_TASKS.add_item((service, init_task), priority=priority)
+    tutor_hooks.Filters.CLI_DO_INIT_TASKS.add_item((service, init_task))
 
 # Image management
 tutor_hooks.Filters.IMAGES_BUILD.add_item((
