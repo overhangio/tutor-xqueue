@@ -2,7 +2,7 @@
 ###### Minimal image with base system requirements for most stages ######
 FROM docker.io/ubuntu:20.04 as minimal
 
-ENV DEBIAN_FRONTEND=noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
 RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked{% endif %} \
     apt update && \
