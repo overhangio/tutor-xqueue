@@ -14,7 +14,7 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 ARG APP_USER_ID=1000
 RUN useradd --home-dir /openedx --create-home --shell /bin/bash --uid ${APP_USER_ID} app
 USER ${APP_USER_ID}
-RUN git clone https://github.com/openedx/xqueue --branch {{ OPENEDX_COMMON_VERSION }} --depth 1 /openedx/xqueue
+RUN git clone {{ XQUEUE_REPOSITORY }} --branch {{ XQUEUE_REPOSITORY_VERSION }} --depth 1 /openedx/xqueue
 WORKDIR /openedx/xqueue
 
 ###### Install python venv ######

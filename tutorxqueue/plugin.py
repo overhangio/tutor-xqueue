@@ -28,6 +28,8 @@ config = {
         "HOST": "xqueue.{{ LMS_HOST }}",
         "MYSQL_DATABASE": "xqueue",
         "MYSQL_USERNAME": "xqueue",
+        "REPOSITORY": "https://github.com/openedx/xqueue",
+        "REPOSITORY_VERSION": "{{ OPENEDX_COMMON_VERSION }}",
     },
 }
 
