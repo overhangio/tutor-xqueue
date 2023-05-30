@@ -1,19 +1,23 @@
 from __future__ import annotations
 
+<<<<<<< HEAD
 from glob import glob
+=======
+>>>>>>> 48b0679 (feat: upgrade to palm)
 import json
 import os
+import typing as t
+from glob import glob
 
 import click
 import pkg_resources
 import requests
 
 from tutor import config as tutor_config
+from tutor import exceptions
 from tutor import hooks as tutor_hooks
-from tutor.exceptions import TutorError
 
 from .__about__ import __version__
-
 
 config = {
     "unique": {
@@ -61,14 +65,6 @@ tutor_hooks.Filters.IMAGES_BUILD.add_item((
     (),
 ))
 
-tutor_hooks.Filters.IMAGES_PULL.add_item((
-    "xqueue",
-    "{{ XQUEUE_DOCKER_IMAGE }}",
-))
-tutor_hooks.Filters.IMAGES_PUSH.add_item((
-    "xqueue",
-    "{{ XQUEUE_DOCKER_IMAGE }}",
-))
 
 @tutor_hooks.Filters.COMPOSE_MOUNTS.add()
 def _mount_xqueue(volumes, name):
@@ -83,6 +79,7 @@ def _mount_xqueue(volumes, name):
             ("xqueue-job", path),
         ]
     return volumes
+
 
 @click.group(help="Interact with the Xqueue server", name="xqueue")
 def command():
@@ -178,7 +175,7 @@ class Client:
         )
         message = response.get("content")
         if message != "Logged in":
-            raise TutorError(
+            raise exceptions.TutorError(
                 "Could not login to xqueue server at {}. Response: '{}'".format(
                     self.base_url, message
                 )
@@ -256,22 +253,36 @@ for path in glob(
     )
 ):
     with open(path, encoding="utf-8") as patch_file:
-        tutor_hooks.Filters.ENV_PATCHES.add_item((os.path.basename(path), patch_file.read()))
+        tutor_hooks.Filters.ENV_PATCHES.add_item(
+            (os.path.basename(path), patch_file.read())
+        )
 
 # Add cli commands filter
 tutor_hooks.Filters.CLI_COMMANDS.add_item(command)
 
 # Add configuration entries
 tutor_hooks.Filters.CONFIG_DEFAULTS.add_items(
-    [
-        (f"XQUEUE_{key}", value)
-        for key, value in config.get("defaults", {}).items()
-    ]
+    [(f"XQUEUE_{key}", value) for key, value in config.get("defaults", {}).items()]
 )
 tutor_hooks.Filters.CONFIG_UNIQUE.add_items(
-    [
-        (f"XQUEUE_{key}", value)
-        for key, value in config.get("unique", {}).items()
-    ]
+    [(f"XQUEUE_{key}", value) for key, value in config.get("unique", {}).items()]
 )
-tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(list(config.get("overrides", {}).items()))
+tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(
+    list(config.get("overrides", {}).items())
+)
+
+
+########################################
+# Xqueue Public Host
+########################################
+
+
+@tutor_hooks.Filters.APP_PUBLIC_HOSTS.add()
+def _discovery_public_hosts(
+    hosts: list[str], context_name: t.Literal["local", "dev"]
+) -> list[str]:
+    if context_name == "dev":
+        hosts += ["discovery.{{ LMS_HOST }}:8000"]
+    else:
+        hosts += ["discovery.{{ LMS_HOST }}"]
+    return hosts
