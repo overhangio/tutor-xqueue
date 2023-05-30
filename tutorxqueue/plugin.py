@@ -281,13 +281,12 @@ tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(
 # Xqueue Public Host
 ########################################
 
-
 @tutor_hooks.Filters.APP_PUBLIC_HOSTS.add()
-def _discovery_public_hosts(
+def _xqueue_public_hosts(
     hosts: list[str], context_name: t.Literal["local", "dev"]
 ) -> list[str]:
     if context_name == "dev":
-        hosts += ["discovery.{{ LMS_HOST }}:8000"]
+        hosts += ["xqueue.{{ LMS_HOST }}:8000"]
     else:
-        hosts += ["discovery.{{ LMS_HOST }}"]
+        hosts += ["xqueue.{{ LMS_HOST }}"]
     return hosts
