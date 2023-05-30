@@ -1,9 +1,5 @@
 from __future__ import annotations
 
-<<<<<<< HEAD
-from glob import glob
-=======
->>>>>>> 48b0679 (feat: upgrade to palm)
 import json
 import os
 import typing as t
