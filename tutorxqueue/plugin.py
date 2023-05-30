@@ -61,6 +61,15 @@ tutor_hooks.Filters.IMAGES_BUILD.add_item((
     (),
 ))
 
+tutor_hooks.Filters.IMAGES_PULL.add_item((
+    "xqueue",
+    "{{ XQUEUE_DOCKER_IMAGE }}",
+))
+tutor_hooks.Filters.IMAGES_PUSH.add_item((
+    "xqueue",
+    "{{ XQUEUE_DOCKER_IMAGE }}",
+))
+
 
 @tutor_hooks.Filters.COMPOSE_MOUNTS.add()
 def _mount_xqueue(volumes, name):
