@@ -288,7 +288,7 @@ def _xqueue_public_hosts(
     hosts: list[str], context_name: t.Literal["local", "dev"]
 ) -> list[str]:
     if context_name == "dev":
-        hosts += ["xqueue.{{ LMS_HOST }}:8000"]
+        hosts += ["{{ XQUEUE_HOST }}:8000"]
     else:
-        hosts += ["xqueue.{{ LMS_HOST }}"]
+        hosts += ["{{ XQUEUE_HOST }}"]
     return hosts
