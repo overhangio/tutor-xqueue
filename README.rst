@@ -108,9 +108,11 @@ Configuration
 - ``XQUEUE_DOCKER_IMAGE`` (default: ``"{{ DOCKER_REGISTRY }}overhangio/openedx-xqueue:{{ TUTOR_VERSION }}"``)
 - ``XQUEUE_HOST`` (default: ``"xqueue.{{ LMS_HOST }}"``)
 - ``XQUEUE_MYSQL_PASSWORD`` (default: ``"{{ 8|random_string }}"``)
-- ``XQUEUE_MYSQL_DATABASE`` (default: ``"xqueue"``
+- ``XQUEUE_MYSQL_DATABASE`` (default: ``"xqueue"``)
 - ``XQUEUE_MYSQL_USERNAME`` (default: ``"xqueue"``)
 - ``XQUEUE_SECRET_KEY`` (default: ``"{{ 24|random_string }}"``)
+- ``XQUEUE_REPOSITORY`` (default: ``"https://github.com/openedx/xqueue"``)
+- ``XQUEUE_REPOSITORY_VERSION`` (default: ``"{{ OPENEDX_COMMON_VERSION }}"``)
 
 These values can be modified with ``tutor config save --set PARAM_NAME=VALUE`` commands.
 
