@@ -1,17 +1,19 @@
-from glob import glob
+from __future__ import annotations
+
 import json
 import os
+import typing as t
+from glob import glob
 
 import click
 import pkg_resources
 import requests
 
 from tutor import config as tutor_config
+from tutor import exceptions
 from tutor import hooks as tutor_hooks
-from tutor.exceptions import TutorError
 
 from .__about__ import __version__
-
 
 config = {
     "unique": {
@@ -26,21 +28,34 @@ config = {
         "HOST": "xqueue.{{ LMS_HOST }}",
         "MYSQL_DATABASE": "xqueue",
         "MYSQL_USERNAME": "xqueue",
+        "REPOSITORY": "https://github.com/openedx/xqueue",
+        "REPOSITORY_VERSION": "{{ OPENEDX_COMMON_VERSION }}",
     },
 }
 
-# Inizialization hooks
-tutor_hooks.Filters.COMMANDS_INIT.add_item((
-    "mysql",
-    ("xqueue", "tasks", "mysql", "init"),
-))
+# Initialization hooks
 
-tutor_hooks.Filters.COMMANDS_INIT.add_item((
-    "xqueue",
-    ("xqueue", "tasks", "xqueue", "init"),
-))
+# To add a custom initialization task, create a bash script template under:
+# tutorcodejail/templates/codejail/tasks/
+# and then add it to the MY_INIT_TASKS list. Each task is in the format:
+# ("<service>", ("<path>", "<to>", "<script>", "<template>"))
+MY_INIT_TASKS: list[tuple[str, tuple[str, ...]]] = [
+    ("mysql", ("xqueue", "tasks", "mysql", "init")),
+    ("xqueue", ("xqueue", "tasks", "xqueue", "init")),
+]
 
-# Image managment
+# For each task added to MY_INIT_TASKS, we load the task template
+# and add it to the CLI_DO_INIT_TASKS filter, which tells Tutor to
+# run it as part of the `init` job.
+for service, template_path in MY_INIT_TASKS:
+    full_path: str = pkg_resources.resource_filename(
+        "tutorxqueue", os.path.join("templates", *template_path)
+    )
+    with open(full_path, encoding="utf-8") as init_task_file:
+        init_task: str = init_task_file.read()
+    tutor_hooks.Filters.CLI_DO_INIT_TASKS.add_item((service, init_task))
+
+# Image management
 tutor_hooks.Filters.IMAGES_BUILD.add_item((
     "xqueue",
     ("plugins", "xqueue", "build", "xqueue"),
@@ -57,6 +72,7 @@ tutor_hooks.Filters.IMAGES_PUSH.add_item((
     "{{ XQUEUE_DOCKER_IMAGE }}",
 ))
 
+
 @tutor_hooks.Filters.COMPOSE_MOUNTS.add()
 def _mount_xqueue(volumes, name):
     """
@@ -70,6 +86,7 @@ def _mount_xqueue(volumes, name):
             ("xqueue-job", path),
         ]
     return volumes
+
 
 @click.group(help="Interact with the Xqueue server", name="xqueue")
 def command():
@@ -165,7 +182,7 @@ class Client:
         )
         message = response.get("content")
         if message != "Logged in":
-            raise TutorError(
+            raise exceptions.TutorError(
                 "Could not login to xqueue server at {}. Response: '{}'".format(
                     self.base_url, message
                 )
@@ -243,22 +260,35 @@ for path in glob(
     )
 ):
     with open(path, encoding="utf-8") as patch_file:
-        tutor_hooks.Filters.ENV_PATCHES.add_item((os.path.basename(path), patch_file.read()))
+        tutor_hooks.Filters.ENV_PATCHES.add_item(
+            (os.path.basename(path), patch_file.read())
+        )
 
 # Add cli commands filter
 tutor_hooks.Filters.CLI_COMMANDS.add_item(command)
 
 # Add configuration entries
 tutor_hooks.Filters.CONFIG_DEFAULTS.add_items(
-    [
-        (f"XQUEUE_{key}", value)
-        for key, value in config.get("defaults", {}).items()
-    ]
+    [(f"XQUEUE_{key}", value) for key, value in config.get("defaults", {}).items()]
 )
 tutor_hooks.Filters.CONFIG_UNIQUE.add_items(
-    [
-        (f"XQUEUE_{key}", value)
-        for key, value in config.get("unique", {}).items()
-    ]
+    [(f"XQUEUE_{key}", value) for key, value in config.get("unique", {}).items()]
 )
-tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(list(config.get("overrides", {}).items()))
+tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(
+    list(config.get("overrides", {}).items())
+)
+
+
+########################################
+# Xqueue Public Host
+########################################
+
+@tutor_hooks.Filters.APP_PUBLIC_HOSTS.add()
+def _xqueue_public_hosts(
+    hosts: list[str], context_name: t.Literal["local", "dev"]
+) -> list[str]:
+    if context_name == "dev":
+        hosts += ["{{ XQUEUE_HOST }}:8000"]
+    else:
+        hosts += ["{{ XQUEUE_HOST }}"]
+    return hosts
