@@ -36,7 +36,7 @@ setup(
     install_requires=["tutor>=16.0.0,<17.0.0", "requests"],
     entry_points={"tutor.plugin.v1": ["xqueue = tutorxqueue.plugin"]},
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: GNU Affero General Public License v3",
         "Operating System :: OS Independent",
