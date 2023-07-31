@@ -9,13 +9,6 @@ xqueue:
   restart: unless-stopped
   depends_on: {{ [("mysql", RUN_MYSQL)]|list_if }}
 
-xqueue-permissions:
-  image: {{ DOCKER_IMAGE_PERMISSIONS }}
-  command: ["1000", "/openedx/xqueue"]
-  restart: on-failure
-  volumes:
-    - ../../data/xqueue/media:/openedx/xqueue
-
 xqueue-consumer:
   image: {{ XQUEUE_DOCKER_IMAGE }}
   volumes:
