@@ -36,7 +36,7 @@ config = {
 # Initialization hooks
 
 # To add a custom initialization task, create a bash script template under:
-# tutorcodejail/templates/codejail/tasks/
+# tutorxqueue/templates/xqueue/tasks/
 # and then add it to the MY_INIT_TASKS list. Each task is in the format:
 # ("<service>", ("<path>", "<to>", "<script>", "<template>"))
 MY_INIT_TASKS: list[tuple[str, tuple[str, ...]]] = [
