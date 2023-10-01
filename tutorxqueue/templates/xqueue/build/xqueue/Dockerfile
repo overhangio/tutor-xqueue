@@ -1,6 +1,7 @@
 {% if is_buildkit_enabled() %}# syntax=docker/dockerfile:1.4{% endif %}
 ###### Minimal image with base system requirements for most stages ######
-FROM docker.io/ubuntu:20.04 as minimal
+ARG DOCKER_REGISTRY={{ DOCKER_REGISTRY }}
+FROM ${DOCKER_REGISTRY}/ubuntu:20.04 as minimal
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/var/cache/apt,sharing=locked \
