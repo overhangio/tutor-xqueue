@@ -4,5 +4,4 @@ xqueue-job:
     - ../plugins/xqueue/apps/settings/tutor.py:/openedx/xqueue/xqueue/tutor.py:ro
   environment:
     DJANGO_SETTINGS_MODULE: xqueue.tutor
-  depends_on:
-    - mysql
+  depends_on: {{ [("mysql", RUN_MYSQL)]|list_if }}
