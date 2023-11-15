@@ -33,7 +33,7 @@ setup(
     packages=find_packages(exclude=["tests*"]),
     include_package_data=True,
     python_requires=">=3.8",
-    install_requires=["tutor>=16.0.0,<17.0.0", "requests"],
+    install_requires=["tutor>=17.0.0,<18.0.0", "requests"],
     entry_points={"tutor.plugin.v1": ["xqueue = tutorxqueue.plugin"]},
     classifiers=[
         "Development Status :: 5 - Production/Stable",
