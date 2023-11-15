@@ -28,9 +28,9 @@ WORKDIR /openedx/xqueue
 RUN python -m venv /openedx/venv
 ENV PATH /openedx/venv/bin:${PATH}
 
-RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install --upgrade pip setuptools
+RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install setuptools==68.2.2 pip==23.2.1. wheel==0.41.2
 RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install -r requirements.txt
-RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install uwsgi==2.0.21
+RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install uwsgi==2.0.22
 
 RUN mkdir /openedx/data /openedx/data/media
 
