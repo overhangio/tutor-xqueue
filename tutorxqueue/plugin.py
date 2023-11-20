@@ -10,10 +10,15 @@ import pkg_resources
 import requests
 
 from tutor import config as tutor_config
+from tutor.__about__ import __version_suffix__
 from tutor import exceptions
 from tutor import hooks as tutor_hooks
 
 from .__about__ import __version__
+
+# Handle version suffix in nightly mode, just like tutor core
+if __version_suffix__:
+    __version__ += "-" + __version_suffix__
 
 config = {
     "unique": {
