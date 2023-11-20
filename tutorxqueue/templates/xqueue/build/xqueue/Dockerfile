@@ -7,7 +7,7 @@ RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/var/cache/apt,shari
     --mount=type=cache,target=/var/lib/apt,sharing=locked{% endif %} \
     apt update && \
     apt upgrade -y && \
-    apt install -y language-pack-en git python3 python3-pip python3-venv libmysqlclient-dev
+    apt install -y language-pack-en git python3 python3-pip python3-venv libmysqlclient-dev pkg-config
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
 ###### Git-clone xqueue repo ######
