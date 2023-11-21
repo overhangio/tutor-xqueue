@@ -19,3 +19,13 @@ instructions, because git commits are used to generate release notes:
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-17.0.0'></a>
+## v17.0.0 (2023-12-09)
+
+- 💥 [Feature] Upgrade to Quince (by @jfavellar90).
+- [Improvement] Add a scriv-compliant changelog. (by @regisb)
+- [Improvement] Removing the xqueue permissions container in favor of a global single permissions container. (by @jfavellar90)
+- [Bugfix] Fix "Error: service "xqueue-job" depends on undefined service mysql: invalid compose project" - add conditional statement to check whether the mysql service is enabled or if the user is using an external mysql instance. (by @ravikhetani)
+- [Improvement] Added Typing to code, Makefile and test action to the repository and formatted code with Black and isort. (by @CodeWithEmad)
+
+

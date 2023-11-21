@@ -1,10 +1,10 @@
-{% if is_buildkit_enabled() %}# syntax=docker/dockerfile:1.4{% endif %}
+# syntax=docker/dockerfile:1.4
 ###### Minimal image with base system requirements for most stages ######
 FROM docker.io/ubuntu:20.04 as minimal
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/var/cache/apt,sharing=locked \
-    --mount=type=cache,target=/var/lib/apt,sharing=locked{% endif %} \
+RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt update && \
     apt upgrade -y && \
     apt install -y \
@@ -27,10 +27,12 @@ WORKDIR /openedx/xqueue
 ###### Install python venv ######
 RUN python -m venv /openedx/venv
 ENV PATH /openedx/venv/bin:${PATH}
-
-RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install setuptools==68.2.2 pip==23.2.1. wheel==0.41.2
-RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install -r requirements.txt
-RUN {% if is_buildkit_enabled() %}--mount=type=cache,target=/openedx/.cache/pip,sharing=shared {% endif %}pip install uwsgi==2.0.22
+# https://pypi.org/project/setuptools/
+# https://pypi.org/project/pip/
+# https://pypi.org/project/wheel/
+RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install setuptools==68.2.2 pip==23.2.1. wheel==0.41.2
+RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install -r requirements.txt
+RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install uwsgi==2.0.22
 
 RUN mkdir /openedx/data /openedx/data/media
 
