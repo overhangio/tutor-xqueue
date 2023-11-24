@@ -2,14 +2,13 @@ from __future__ import annotations
 
 import json
 import os
-import typing as t
 from glob import glob
+from typing import Any, Literal, Optional, Union
 
 import click
 import pkg_resources
-import requests
+import requests  # type: ignore
 from tutor import config as tutor_config
-from tutor.__about__ import __version_suffix__
 from tutor import exceptions
 from tutor import hooks as tutor_hooks
 from tutor.__about__ import __version_suffix__
@@ -20,7 +19,7 @@ from .__about__ import __version__
 if __version_suffix__:
     __version__ += "-" + __version_suffix__
 
-config = {
+config: dict[str, dict[str, Any]] = {
     "defaults": {
         "VERSION": __version__,
         "AUTH_USERNAME": "lms",
@@ -85,7 +84,7 @@ tutor_hooks.Filters.IMAGES_PUSH.add_item(
 
 
 @tutor_hooks.Filters.COMPOSE_MOUNTS.add()
-def _mount_xqueue(volumes, name):
+def _mount_xqueue(volumes: list[tuple[str, str]], name: str) -> list[tuple[str, str]]:
     """
     When mounting xqueue with `--mount=/path/to/xqueue`,
     bind-mount the host repo in the xqueue container.
@@ -100,11 +99,11 @@ def _mount_xqueue(volumes, name):
 
 
 @click.group(help="Interact with the Xqueue server", name="xqueue")
-def command():
+def command() -> None:
     pass
 
 
-@click.group(help="List and grade submissions")
+@click.group(help="list and grade submissions")
 @click.pass_obj
 @click.option("-q", "--queue", default="openedx", show_default=True, help="Queue name")
 @click.option(
@@ -117,21 +116,21 @@ def command():
         "from the TUTOR_XQUEUE_URL environment variable."
     ),
 )
-def submissions(context, queue, url):
-    context.queue = queue
-    context.url = url
+def submissions(context: click.Context, queue: str, url: str) -> None:
+    context.queue = queue  # type: ignore
+    context.url = url  # type: ignore
 
 
 @click.command(name="count", help="Count submissions in queue")
 @click.pass_obj
-def count_submissions(context):
-    print_result(context, "count_submissions", context.queue)
+def count_submissions(context: click.Context) -> None:
+    print_result(context, "count_submissions", context.queue)  # type: ignore
 
 
 @click.command(name="show", help="Show last submission")
 @click.pass_obj
-def show_submission(context):
-    print_result(context, "show_submission", context.queue)
+def show_submission(context: click.Context) -> None:
+    print_result(context, "show_submission", context.queue)  # type: ignore
 
 
 @click.command(name="grade", help="Grade a specific submission")
@@ -141,29 +140,43 @@ def show_submission(context):
 @click.argument("correct", type=click.BOOL)
 @click.argument("message")
 @click.pass_obj
-def grade_submission(context, submission_id, submission_key, grade, correct, message):
+def grade_submission(
+    context: click.Context,
+    submission_id: str,
+    submission_key: str,
+    grade: str,
+    correct: str,
+    message: str,
+) -> None:
     print_result(
         context,
         "grade_submission",
-        submission_id,
-        submission_key,
-        grade,
-        correct,
-        message,
+        (
+            submission_id,
+            submission_key,
+            grade,
+            correct,
+            message,
+        ),
     )
 
 
-def print_result(context, client_func_name, *args, **kwargs):
-    user_config = tutor_config.load(context.root)
-    client = Client(user_config, url=context.url)
+def print_result(
+    context: click.Context,
+    client_func_name: str,
+    *args: tuple[Any, ...],
+    **kwargs: dict[str, Any],
+) -> None:
+    user_config = tutor_config.load(context.root)  # type: ignore
+    client = Client(user_config, url=context.url)  # type: ignore
     func = getattr(client, client_func_name)
     result = func(*args, **kwargs)
     print(json.dumps(result, indent=2))
 
 
 class Client:
-    def __init__(self, user_config, url=None):
-        self._session = None
+    def __init__(self, user_config: dict[str, Any], url: str = "") -> None:
+        self._session: Optional[requests.Session] = None
         self.username = user_config["XQUEUE_AUTH_USERNAME"]
         self.password = user_config["XQUEUE_AUTH_PASSWORD"]
 
@@ -175,17 +188,17 @@ class Client:
         self.login()
 
     @property
-    def session(self):
+    def session(self) -> requests.Session:
         if self._session is None:
             self._session = requests.Session()
         return self._session
 
-    def url(self, endpoint):
+    def url(self, endpoint: str) -> str:
         # Don't forget to add a trailing slash to all endpoints: this is how xqueue
         # works...
         return self.base_url + endpoint
 
-    def login(self):
+    def login(self) -> None:
         response = self.request(
             "/xqueue/login/",
             method="POST",
@@ -199,7 +212,7 @@ class Client:
                 )
             )
 
-    def show_submission(self, queue):
+    def show_submission(self, queue: str) -> Union[dict[str, Any], Any]:
         response = self.request("/xqueue/get_submission/", params={"queue_name": queue})
         if response["return_code"] != 0:
             return response
@@ -222,10 +235,17 @@ class Client:
             "return_code": response["return_code"],
         }
 
-    def count_submissions(self, queue):
+    def count_submissions(self, queue: str) -> Any:
         return self.request("/xqueue/get_queuelen/", params={"queue_name": queue})
 
-    def grade_submission(self, submission_id, submission_key, grade, correct, msg):
+    def grade_submission(
+        self,
+        submission_id: str,
+        submission_key: str,
+        grade: str,
+        correct: bool,
+        msg: str,
+    ) -> Any:
         return self.request(
             "/xqueue/put_result/",
             method="POST",
@@ -239,7 +259,13 @@ class Client:
             },
         )
 
-    def request(self, endpoint, method="GET", data=None, params=None):
+    def request(
+        self,
+        endpoint: str,
+        method: str = "GET",
+        data: Optional[dict[str, Any]] = None,
+        params: Optional[dict[str, Any]] = None,
+    ) -> Any:
         func = getattr(self.session, method.lower())
         response = func(self.url(endpoint), data=data, params=params)
         # TODO handle errors >= 400 and non-parsable json responses
@@ -296,7 +322,7 @@ tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(
 
 @tutor_hooks.Filters.APP_PUBLIC_HOSTS.add()
 def _xqueue_public_hosts(
-    hosts: list[str], context_name: t.Literal["local", "dev"]
+    hosts: list[str], context_name: Literal["local", "dev"]
 ) -> list[str]:
     if context_name == "dev":
         hosts += ["{{ XQUEUE_HOST }}:8000"]
