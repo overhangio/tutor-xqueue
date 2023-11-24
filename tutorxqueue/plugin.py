@@ -8,11 +8,11 @@ from glob import glob
 import click
 import pkg_resources
 import requests
-
 from tutor import config as tutor_config
 from tutor.__about__ import __version_suffix__
 from tutor import exceptions
 from tutor import hooks as tutor_hooks
+from tutor.__about__ import __version_suffix__
 
 from .__about__ import __version__
 
@@ -21,11 +21,6 @@ if __version_suffix__:
     __version__ += "-" + __version_suffix__
 
 config = {
-    "unique": {
-        "AUTH_PASSWORD": "{{ 8|random_string }}",
-        "MYSQL_PASSWORD": "{{ 8|random_string }}",
-        "SECRET_KEY": "{{ 24|random_string }}",
-    },
     "defaults": {
         "VERSION": __version__,
         "AUTH_USERNAME": "lms",
@@ -35,6 +30,11 @@ config = {
         "MYSQL_USERNAME": "xqueue",
         "REPOSITORY": "https://github.com/openedx/xqueue",
         "REPOSITORY_VERSION": "{{ OPENEDX_COMMON_VERSION }}",
+    },
+    "unique": {
+        "AUTH_PASSWORD": "{{ 8|random_string }}",
+        "MYSQL_PASSWORD": "{{ 8|random_string }}",
+        "SECRET_KEY": "{{ 24|random_string }}",
     },
 }
 
@@ -61,21 +61,27 @@ for service, template_path in MY_INIT_TASKS:
     tutor_hooks.Filters.CLI_DO_INIT_TASKS.add_item((service, init_task))
 
 # Image management
-tutor_hooks.Filters.IMAGES_BUILD.add_item((
-    "xqueue",
-    ("plugins", "xqueue", "build", "xqueue"),
-    "{{ XQUEUE_DOCKER_IMAGE }}",
-    (),
-))
+tutor_hooks.Filters.IMAGES_BUILD.add_item(
+    (
+        "xqueue",
+        ("plugins", "xqueue", "build", "xqueue"),
+        "{{ XQUEUE_DOCKER_IMAGE }}",
+        (),
+    )
+)
 
-tutor_hooks.Filters.IMAGES_PULL.add_item((
-    "xqueue",
-    "{{ XQUEUE_DOCKER_IMAGE }}",
-))
-tutor_hooks.Filters.IMAGES_PUSH.add_item((
-    "xqueue",
-    "{{ XQUEUE_DOCKER_IMAGE }}",
-))
+tutor_hooks.Filters.IMAGES_PULL.add_item(
+    (
+        "xqueue",
+        "{{ XQUEUE_DOCKER_IMAGE }}",
+    )
+)
+tutor_hooks.Filters.IMAGES_PUSH.add_item(
+    (
+        "xqueue",
+        "{{ XQUEUE_DOCKER_IMAGE }}",
+    )
+)
 
 
 @tutor_hooks.Filters.COMPOSE_MOUNTS.add()
@@ -245,7 +251,6 @@ submissions.add_command(show_submission)
 submissions.add_command(grade_submission)
 command.add_command(submissions)
 
-####### Boilerplate code
 # Add the "templates" folder as a template root
 tutor_hooks.Filters.ENV_TEMPLATE_ROOTS.add_item(
     pkg_resources.resource_filename("tutorxqueue", "templates")
@@ -287,6 +292,7 @@ tutor_hooks.Filters.CONFIG_OVERRIDES.add_items(
 ########################################
 # Xqueue Public Host
 ########################################
+
 
 @tutor_hooks.Filters.APP_PUBLIC_HOSTS.add()
 def _xqueue_public_hosts(
