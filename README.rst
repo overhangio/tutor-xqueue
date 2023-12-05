@@ -1,7 +1,7 @@
-Xqueue external grading system plugin for `Tutor <https://docs.tutor.overhang.io>`_
+Xqueue external grading system plugin for `Tutor <https://docs.tutor.edly.io>`_
 ===================================================================================
 
-This is a plugin for `Tutor <https://docs.tutor.overhang.io>`_ that provides the Xqueue external grading system for Open edX platforms. If you don't know what it is, you probably don't need it.
+This is a plugin for `Tutor <https://docs.tutor.edly.io>`_ that provides the Xqueue external grading system for Open edX platforms. If you don't know what it is, you probably don't need it.
 
 Installation
 ------------
@@ -133,4 +133,4 @@ This work is licensed under the terms of the `GNU Affero General Public License 
 Troubleshooting
 ---------------
 
-This Tutor plugin is maintained by Jhony Avella from `eduNEXT <https://www.edunext.co/>`__. Community support is available from the official `Open edX forum <https://discuss.openedx.org>`__. Do you need help with this plugin? See the `troubleshooting <https://docs.tutor.overhang.io/troubleshooting.html>`__ section from the Tutor documentation.
+This Tutor plugin is maintained by Jhony Avella from `eduNEXT <https://www.edunext.co/>`__. Community support is available from the official `Open edX forum <https://discuss.openedx.org>`__. Do you need help with this plugin? See the `troubleshooting <https://docs.tutor.edly.io/troubleshooting.html>`__ section from the Tutor documentation.
