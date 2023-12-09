@@ -56,7 +56,7 @@ For a problem that includes a file submission, write instead::
 
 Note that in all cases, the queue name must be "openedx".
 
-Save and publish the created unit. Then, access the unit from the LMS and attempt to answer the problem. The answer is sent to the Xqueue service. If you know how to use the Xqueue API, you can access it at http(s)://xqueue.LMS_HOST (in production) or http://xqueue.local.overhang.io (in development). However, the Xqueue API is a bit awkward to use. Tutor provides a simple command-line interface to interact with the Xqueue service.
+Save and publish the created unit. Then, access the unit from the LMS and attempt to answer the problem. The answer is sent to the Xqueue service. If you know how to use the Xqueue API, you can access it at http(s)://xqueue.LMS_HOST (in production) or http://xqueue.local.edly.io (in development). However, the Xqueue API is a bit awkward to use. Tutor provides a simple command-line interface to interact with the Xqueue service.
 
 Count the number of submissions that need to be graded::
 
