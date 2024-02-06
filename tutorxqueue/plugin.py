@@ -6,10 +6,9 @@ from glob import glob
 from typing import Any, Literal, Optional, Union
 
 import click
-import pkg_resources
+import importlib_resources
 import requests  # type: ignore
 from tutor import config as tutor_config
-from tutor.__about__ import __version_suffix__
 from tutor import exceptions
 from tutor import hooks as tutor_hooks
 from tutor.__about__ import __version_suffix__
@@ -39,22 +38,17 @@ config: dict[str, dict[str, Any]] = {
 }
 
 # Initialization hooks
-
-# To add a custom initialization task, create a bash script template under:
-# tutorxqueue/templates/xqueue/tasks/
-# and then add it to the MY_INIT_TASKS list. Each task is in the format:
-# ("<service>", ("<path>", "<to>", "<script>", "<template>"))
-MY_INIT_TASKS: list[tuple[str, tuple[str, ...]]] = [
-    ("mysql", ("xqueue", "tasks", "mysql", "init")),
-    ("xqueue", ("xqueue", "tasks", "xqueue", "init")),
-]
-
-# For each task added to MY_INIT_TASKS, we load the task template
+# For each service that needs to be initialized, we load the task template
 # and add it to the CLI_DO_INIT_TASKS filter, which tells Tutor to
 # run it as part of the `init` job.
-for service, template_path in MY_INIT_TASKS:
-    full_path: str = pkg_resources.resource_filename(
-        "tutorxqueue", os.path.join("templates", *template_path)
+for service in ["mysql", "xqueue"]:
+    full_path: str = str(
+        importlib_resources.files("tutorxqueue")
+        / "templates"
+        / "xqueue"
+        / "tasks"
+        / service
+        / "init"
     )
     with open(full_path, encoding="utf-8") as init_task_file:
         init_task: str = init_task_file.read()
@@ -185,7 +179,7 @@ class Client:
         if not self.base_url:
             scheme = "https" if user_config["ENABLE_HTTPS"] else "http"
             host = user_config["XQUEUE_HOST"]
-            self.base_url = "{}://{}".format(scheme, host)
+            self.base_url = f"{scheme}://{host}"
         self.login()
 
     @property
@@ -208,9 +202,7 @@ class Client:
         message = response.get("content")
         if message != "Logged in":
             raise exceptions.TutorError(
-                "Could not login to xqueue server at {}. Response: '{}'".format(
-                    self.base_url, message
-                )
+                f"Could not login to xqueue server at {self.base_url}. Response: '{message}'"
             )
 
     def show_submission(self, queue: str) -> Union[dict[str, Any], Any]:
@@ -280,7 +272,7 @@ command.add_command(submissions)
 
 # Add the "templates" folder as a template root
 tutor_hooks.Filters.ENV_TEMPLATE_ROOTS.add_item(
-    pkg_resources.resource_filename("tutorxqueue", "templates")
+    str(importlib_resources.files("tutorxqueue") / "templates")
 )
 # Render the "build" and "apps" folders
 tutor_hooks.Filters.ENV_TEMPLATE_TARGETS.add_items(
@@ -290,12 +282,7 @@ tutor_hooks.Filters.ENV_TEMPLATE_TARGETS.add_items(
     ],
 )
 # Load patches from files
-for path in glob(
-    os.path.join(
-        pkg_resources.resource_filename("tutorxqueue", "patches"),
-        "*",
-    )
-):
+for path in glob(str(importlib_resources.files("tutorxqueue") / "patches" / "*")):
     with open(path, encoding="utf-8") as patch_file:
         tutor_hooks.Filters.ENV_PATCHES.add_item(
             (os.path.basename(path), patch_file.read())
