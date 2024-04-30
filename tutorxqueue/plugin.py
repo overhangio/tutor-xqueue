@@ -146,21 +146,19 @@ def grade_submission(
     print_result(
         context,
         "grade_submission",
-        (
-            submission_id,
-            submission_key,
-            grade,
-            correct,
-            message,
-        ),
+        submission_id,
+        submission_key,
+        grade,
+        correct,
+        message,
     )
 
 
 def print_result(
     context: click.Context,
     client_func_name: str,
-    *args: tuple[Any, ...],
-    **kwargs: dict[str, Any],
+    *args: Any,
+    **kwargs: Any,
 ) -> None:
     user_config = tutor_config.load(context.root)  # type: ignore
     client = Client(user_config, url=context.url)  # type: ignore
