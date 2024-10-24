@@ -19,6 +19,15 @@ instructions, because git commits are used to generate release notes:
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-19.0.0'></a>
+## v19.0.0 (2024-10-24)
+
+- [Bugfix] Fix legacy warnings during Docker build. (by @regisb)
+
+- 💥[Feature] Update Xqueue Image to use Ubuntu 24.04 as base OS. (by @jfavellar90)
+
+- 💥[Feature] Upgrade to Sumac. (by @jfavellar90)
+
 <a id='changelog-18.0.0'></a>
 ## v18.0.0 (2024-05-09)
 
