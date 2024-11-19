@@ -96,7 +96,7 @@ Grade the submission (in this case, mark it as being correct)::
 
 The submission should then appear as correct with the message that you provided on the command line:
 
-.. image:: https://github.com/overhangio/tutor-xqueue/raw/master/screenshots/correctanswer.png
+.. image:: https://github.com/overhangio/tutor-xqueue/raw/release/screenshots/correctanswer.png
   :alt: Correct answer
   :align: center
 
@@ -128,7 +128,7 @@ Feel free to add breakpoints (``breakpoint()``) anywhere in your source code to 
 License
 -------
 
-This work is licensed under the terms of the `GNU Affero General Public License (AGPL) <https://github.com/overhangio/tutor-xqueue/blob/master/LICENSE.txt>`_.
+This work is licensed under the terms of the `GNU Affero General Public License (AGPL) <https://github.com/overhangio/tutor-xqueue/blob/release/LICENSE.txt>`_.
 
 Troubleshooting
 ---------------
