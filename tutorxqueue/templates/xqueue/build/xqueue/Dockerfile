@@ -1,22 +1,24 @@
 # syntax=docker/dockerfile:1.4
-###### Minimal image with base system requirements for most stages ######
-FROM docker.io/python:3.12-slim-bookworm
+FROM docker.io/ubuntu:24.04
 
 ARG DEBIAN_FRONTEND=noninteractive
+
+# Delete default UID=1000 `ubuntu` user to ensure we can use id 1000 for app user
+RUN userdel -r ubuntu
+
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt update && \
     apt upgrade -y && \
     apt install -y \
-        locales \
+        language-pack-en \
         git \
-        python3-dev \
-        build-essential \
-        default-libmysqlclient-dev \
-        pkg-config && \
-    sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
-    locale-gen
-ENV LC_ALL=en_US.UTF-8
+        python3 \
+        python3-pip \
+        python3-venv \
+        libmysqlclient-dev \
+        pkg-config
+RUN ln -s /usr/bin/python3 /usr/bin/python
 
 ###### Git-clone xqueue repo ######
 ARG APP_USER_ID=1000
@@ -32,7 +34,7 @@ ENV PATH=/openedx/venv/bin:${PATH}
 # https://pypi.org/project/setuptools/
 # https://pypi.org/project/pip/
 # https://pypi.org/project/wheel/
-RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install setuptools==69.2.0 pip==24.0 wheel==0.43.0
+RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install setuptools==75.2.0 pip==24.2 wheel==0.44.0
 RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install -r requirements.txt
 RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install uwsgi==2.0.25.1
 
