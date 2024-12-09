@@ -22,6 +22,12 @@ instructions, because git commits are used to generate release notes:
 <a id='changelog-19.0.0'></a>
 ## v19.0.0 (2024-10-24)
 
+- 💥 [Deprecation] Drop support for python 3.8 and set Python 3.9 as the minimum supported python version. (by @DawoudSheraz)
+
+- 💥[Improvement] Rename Tutor's two branches (by @DawoudSheraz):
+  * Rename **master** to **release**, as this branch runs the latest official Open edX release tag.
+  * Rename **nightly** to **main**, as this branch runs the Open edX master branches, which are the basis for the next Open edX release.
+
 - [Bugfix] Fix legacy warnings during Docker build. (by @regisb)
 
 - 💥[Feature] Update Xqueue Image to use Ubuntu 24.04 as base OS. (by @jfavellar90)
