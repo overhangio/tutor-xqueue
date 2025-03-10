@@ -9,8 +9,8 @@ authors = [
   { email = "hello@edly.io"},
 ]
 maintainers = [
-  { name = "eduNEXT" },
-  { email = "contact@edunext.co" },
+  { name = "Jhony Avella" },
+  { email = "jhony.avella@edunext.co" },
 ]
 license = {text = "AGPL-3.0-only"}
 readme = {file = "README.rst", content-type = "text/x-rst"}
