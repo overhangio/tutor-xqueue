@@ -1,2 +1,63 @@
+# https://packaging.python.org/en/latest/tutorials/packaging-projects/
+# https://hatch.pypa.io/latest/config/build/
+
+[project]
+name = "tutor-xqueue"
+description = "A Tutor plugin for Xqueue (external grading system)"
+authors = [
+  { name = "Edly" },
+  { email = "hello@edly.io"},
+]
+maintainers = [
+  { name = "Jhony Avella" },
+  { email = "jhony.avella@edunext.co" },
+]
+license = {text = "AGPL-3.0-only"}
+readme = {file = "README.rst", content-type = "text/x-rst"}
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU Affero General Public License v3",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+  "tutor>=19.0.0,<20.0.0",
+]
+optional-dependencies = { dev = ["tutor[dev]>=19.0.0,<20.0.0"] }
+
+# These fields will be set by hatch_build.py
+dynamic = ["version"]
+
+# https://packaging.python.org/en/latest/specifications/well-known-project-urls/#well-known-labels
+[project.urls]
+Homepage = "https://docs.tutor.edly.io/"
+Documentation = "https://github.com/overhangio/tutor-xqueue#readme"
+Issues = "https://github.com/overhangio/tutor-xqueue/issues"
+Source = "https://github.com/overhangio/tutor-xqueue"
+Changelog = "https://github.com/overhangio/tutor-xqueue/blob/release/CHANGELOG.md"
+Community = "https://discuss.openedx.org/tag/tutor"
+
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# hatch-specific configuration
+[tool.hatch.metadata.hooks.custom]
+path = ".hatch_build.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["tutorxqueue"]
+
+[tool.hatch.build.targets.sdist]
+# Disable strict naming, otherwise twine is not able to detect name/version
+strict-naming = false
+include = [ "/tutorxqueue"]
+
+[project.entry-points."tutor.plugin.v1"]
+xqueue = "tutorxqueue.plugin"
