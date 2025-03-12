@@ -29,10 +29,16 @@ classifiers = [
 dependencies = [
   "tutor>=19.0.0,<20.0.0",
 ]
-optional-dependencies = { dev = ["tutor[dev]>=19.0.0,<20.0.0"] }
 
 # These fields will be set by hatch_build.py
 dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "tutor[dev]>=19.0.0,<20.0.0",
+    "black",
+    "pylint"
+]
 
 # https://packaging.python.org/en/latest/specifications/well-known-project-urls/#well-known-labels
 [project.urls]
@@ -57,7 +63,8 @@ packages = ["tutorxqueue"]
 [tool.hatch.build.targets.sdist]
 # Disable strict naming, otherwise twine is not able to detect name/version
 strict-naming = false
-include = [ "/tutorxqueue"]
+include = [ "/tutorxqueue", ".hatch_build.py"]
+exclude = ["tests*"]
 
 [project.entry-points."tutor.plugin.v1"]
 xqueue = "tutorxqueue.plugin"
