@@ -30,15 +30,15 @@ dependencies = [
   "tutor>=19.0.0,<20.0.0",
 ]
 
+# These fields will be set by hatch_build.py
+dynamic = ["version"]
+
 [project.optional-dependencies]
 dev = [
     "tutor[dev]>=19.0.0,<20.0.0",
     "black",
     "pylint"
 ]
-
-# These fields will be set by hatch_build.py
-dynamic = ["version"]
 
 # https://packaging.python.org/en/latest/specifications/well-known-project-urls/#well-known-labels
 [project.urls]
