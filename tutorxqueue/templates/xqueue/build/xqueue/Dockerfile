@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.4
+# syntax=docker/dockerfile:1
 FROM docker.io/ubuntu:24.04
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -34,18 +34,18 @@ ENV PATH=/openedx/venv/bin:${PATH}
 # https://pypi.org/project/setuptools/
 # https://pypi.org/project/pip/
 # https://pypi.org/project/wheel/
-RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install setuptools==75.2.0 pip==24.2 wheel==0.44.0
+RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install setuptools==78.1.0 pip==25.0.1 wheel==0.46.0
 RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install -r requirements.txt
-RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install uwsgi==2.0.25.1
+RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install uwsgi==2.0.28
 
 RUN mkdir /openedx/data /openedx/data/media
 
 EXPOSE 8000
-CMD uwsgi \
-    --static-map /media=/openedx/data/media/ \
-    --http 0.0.0.0:8000 \
-    --thunder-lock \
-    --single-interpreter \
-    --enable-threads \
-    --processes=2 \
-    --wsgi-file xqueue/wsgi.py
+CMD ["uwsgi", \
+    "--static-map", "/media=/openedx/data/media/", \
+    "--http", "0.0.0.0:8000", \
+    "--thunder-lock", \
+    "--single-interpreter", \
+    "--enable-threads", \
+    "--processes=2", \
+    "--wsgi-file", "xqueue/wsgi.py"]
