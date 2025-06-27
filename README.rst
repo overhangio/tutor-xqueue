@@ -19,7 +19,7 @@ You should then run the initialisation scripts. The easiest way to do this is to
 Usage
 -----
 
-In the Open edX studio, edit a course and add a new "Advanced blank problem" ("Problem" → "Advanced" →  "Blank Advanced Problem"). Then, click "Edit" and copy-paste the following in the editor::
+In the Open edX studio, edit a course and add a new "Advanced blank problem" ("Problem" → "Advanced problem types" →  "Blank problem"). Then, copy-paste the following in the Blank problem editor::
 
 
     <problem>

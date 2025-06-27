@@ -19,6 +19,11 @@ instructions, because git commits are used to generate release notes:
 
 <!-- scriv-insert-here -->
 
+<a id='changelog-20.0.0'></a>
+## v20.0.0 (2025-06-05)
+
+- 💥[Feature] Upgrade to Teak. (by @jfavellar90)
+
 <a id='changelog-19.0.2'></a>
 ## v19.0.2 (2025-03-12)
 
