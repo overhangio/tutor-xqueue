@@ -23,7 +23,7 @@ config: dict[str, dict[str, Any]] = {
     "defaults": {
         "VERSION": __version__,
         "AUTH_USERNAME": "lms",
-        "DOCKER_IMAGE": "{{ DOCKER_REGISTRY }}overhangio/openedx-xqueue:{{ XQUEUE_VERSION }}",
+        "DOCKER_IMAGE": "{{ DOCKER_REGISTRY }}overhangio/openedx-xqueue:{{ XQUEUE_VERSION }}",  # noqa: E501
         "HOST": "xqueue.{{ LMS_HOST }}",
         "MYSQL_DATABASE": "xqueue",
         "MYSQL_USERNAME": "xqueue",
@@ -200,7 +200,7 @@ class Client:
         message = response.get("content")
         if message != "Logged in":
             raise exceptions.TutorError(
-                f"Could not login to xqueue server at {self.base_url}. Response: '{message}'"
+                f"Could not login to xqueue server at {self.base_url}. Response: '{message}'"  # noqa: E501
             )
 
     def show_submission(self, queue: str) -> Union[dict[str, Any], Any]:
