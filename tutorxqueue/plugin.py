@@ -28,7 +28,9 @@ config: dict[str, dict[str, Any]] = {
         "MYSQL_DATABASE": "xqueue",
         "MYSQL_USERNAME": "xqueue",
         "REPOSITORY": "https://github.com/openedx/xqueue",
-        "REPOSITORY_VERSION": "{{ OPENEDX_COMMON_VERSION }}",
+        # TODO: revert REPOSITORY_VERSION to "{{ OPENEDX_COMMON_VERSION }}"
+        # once openedx/xqueue has released an ulmo branch
+        "REPOSITORY_VERSION": "master",
     },
     "unique": {
         "AUTH_PASSWORD": "{{ 8|random_string }}",

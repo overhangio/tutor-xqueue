@@ -24,8 +24,8 @@ instructions, because git commits are used to generate release notes:
 
 - [Improvement] Migrate from pylint and black to ruff. (by @rehmansheikh222)
 - [Improvement] Test python package distribution build when running make test. (by @rehmansheikh222)
-
 - 💥[Feature] Upgrade to Ulmo. (by @jfavellar90)
+- [Chore] Change XQUEUE_REPOSITORY_VERSION to master as a temporary fix to unblock tutor ulmo release. (by @Faraz32123)
 
 <a id='changelog-20.0.0'></a>
 ## v20.0.0 (2025-06-05)
