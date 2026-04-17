@@ -29,7 +29,7 @@ config: dict[str, dict[str, Any]] = {
         "MYSQL_USERNAME": "xqueue",
         "REPOSITORY": "https://github.com/openedx/xqueue",
         # TODO: revert REPOSITORY_VERSION to "{{ OPENEDX_COMMON_VERSION }}"
-        # once openedx/xqueue has released an ulmo branch
+        # once openedx/xqueue has released an verawood branch
         "REPOSITORY_VERSION": "master",
     },
     "unique": {
