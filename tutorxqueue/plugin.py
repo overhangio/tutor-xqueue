@@ -7,7 +7,7 @@ from typing import Any, Literal, Optional, Union
 
 import click
 import importlib_resources
-import requests  # type: ignore
+import requests
 from tutor import config as tutor_config
 from tutor import exceptions
 from tutor import hooks as tutor_hooks
