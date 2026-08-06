@@ -7,7 +7,7 @@ from typing import Any, Literal, Optional, Union
 
 import click
 import importlib_resources
-import requests  # type: ignore
+import requests
 from tutor import config as tutor_config
 from tutor import exceptions
 from tutor import hooks as tutor_hooks
@@ -29,7 +29,7 @@ config: dict[str, dict[str, Any]] = {
         "MYSQL_USERNAME": "xqueue",
         "REPOSITORY": "https://github.com/openedx/xqueue",
         # TODO: revert REPOSITORY_VERSION to "{{ OPENEDX_COMMON_VERSION }}"
-        # once openedx/xqueue has released an ulmo branch
+        # once openedx/xqueue has released an verawood branch
         "REPOSITORY_VERSION": "master",
     },
     "unique": {
