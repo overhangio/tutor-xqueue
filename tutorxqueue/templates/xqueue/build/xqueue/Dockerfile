@@ -37,6 +37,10 @@ ENV PATH=/openedx/venv/bin:${PATH}
 # https://pypi.org/project/wheel/
 RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install setuptools==80.9.0 pip==26.2.2 wheel==0.46.1
 RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install -r requirements.txt
+
+# Upgrade certifi until the upstream requirements pin a version without the compromised emSign roots
+# https://emudhra.we-have-a-problem.com/
+RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install "certifi>=2026.10.19"
 RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install uwsgi==2.0.31
 
 RUN mkdir /openedx/data /openedx/data/media
