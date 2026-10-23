@@ -11,6 +11,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt update && \
     apt upgrade -y && \
     apt install -y \
+        ca-certificates \
         language-pack-en \
         git \
         python3 \
@@ -34,7 +35,7 @@ ENV PATH=/openedx/venv/bin:${PATH}
 # https://pypi.org/project/setuptools/
 # https://pypi.org/project/pip/
 # https://pypi.org/project/wheel/
-RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install setuptools==80.9.0 pip==25.3 wheel==0.46.1
+RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install setuptools==80.9.0 pip==26.2.2 wheel==0.46.1
 RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install -r requirements.txt
 RUN --mount=type=cache,target=/openedx/.cache/pip,sharing=shared pip install uwsgi==2.0.31
 
