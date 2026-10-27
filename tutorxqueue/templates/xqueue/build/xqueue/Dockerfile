@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM docker.io/ubuntu:24.04
+FROM docker.io/ubuntu:25.10
 
 ARG DEBIAN_FRONTEND=noninteractive
 
