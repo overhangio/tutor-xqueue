@@ -18,7 +18,7 @@ build-pythonpackage: ## Build the "tutor-xqueue" python package for upload to py
 	python -m build --sdist
 
 test-pythonpackage: build-pythonpackage ## Test that package can be uploaded to pypi
-	twine check dist/tutor_xqueue-$(shell make version).tar.gz
+	twine check dist/tutor_xqueue-$(shell $(MAKE) --no-print-directory version).tar.gz
 
 format: ## Format code automatically
 	ruff format ${SRC_DIRS}
